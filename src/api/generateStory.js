@@ -18,17 +18,28 @@ const openai = new OpenAI({
 
 export async function generateStory(input, req, res) {
         try {
-        const completion = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo',
-            messages: [{role: "system", content: "You are jovial and extremely elated."},
-                      {role: "user", content: `Produce a 1 sentence short story strictly about ${input}`}],
-            max_tokens: 150,
-            temperature: 0.9,
-            n: 1
-        });
+            const completion = await openai.chat.completions.create({
+                model: 'gpt-4o-mini',
+                messages: [{role: "system", content: "You are feeling sexy and crazy charming."},
+                        {role: "user", content: `Produce a 1 sentence short story strictly about ${input}`}],
+                max_tokens: 150,
+                temperature: 0.9,
+                n: 1
+            });
+
+            const res = await openai.images.generate({
+                model: "dall-e-2",
+                prompt: String(input),
+                n: 1,
+                size: "512x512",
+                style: "natural",
+                quality: "hd"
+              });
+
+              const image_url = res.data[0].url;
 
         const response = completion.choices[0].message.content;
-        return response;
+        return [response, image_url];
     } catch (error) {
         alert(error)
 
