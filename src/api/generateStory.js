@@ -18,9 +18,11 @@ const openai = new OpenAI({
 
 export async function generateStory(input, req, res) {
         try {
+            alert("Wait for the magic to sprout ;) this may take a while..");
+
             const completion = await openai.chat.completions.create({
                 model: 'gpt-4o-mini',
-                messages: [{role: "system", content: "You are feeling sexy and crazy charming."},
+                messages: [{role: "system", content: "You are super bored and uninspired. No exception."},
                         {role: "user", content: `Produce a 1 sentence short story strictly about ${input}`}],
                 max_tokens: 150,
                 temperature: 0.9,
@@ -28,10 +30,10 @@ export async function generateStory(input, req, res) {
             });
 
             const res = await openai.images.generate({
-                model: "dall-e-2",
+                model: "dall-e-3",
                 prompt: String(input),
                 n: 1,
-                size: "512x512",
+                size: "1024x1024",
                 style: "natural",
                 quality: "hd"
               });
@@ -48,6 +50,9 @@ export async function generateStory(input, req, res) {
         }
         else if (error.response.status === 401) {
             return res.status(401).json({ error: 'Invalid API key.' });
+        }
+        else if (error.response.status === 400) {
+            return res.status(400).json({ error: 'Invalid request.' });
         }
     }
 }
