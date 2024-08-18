@@ -1,2 +1,2 @@
 # Story-App
-Simple short story generation app that utilizes GPT 3.5 turbo.
+Simple short story generation app that utilizes Gen AI models.
