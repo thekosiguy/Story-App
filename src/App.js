@@ -36,8 +36,8 @@ function App() {
         }
       })
       .then((response) => response.json())
-      .then((json) => {console.log("url: " + json.video_url); document.getElementById("videoDiv").innerHTML = "<p>Generate vid about " + input + " below!</p>" +
-      "<a href=" + json.video_url + " target='_blank' rel='noopener noreferrer'><p id='video'>Click Here</p></a>"});
+      .then((json) => document.getElementById("videoDiv").innerHTML = "<p>Generate vid about " + input + " below!</p>" +
+      "(An account is required, free to create!) <a href=" + json.video_url + " target='_blank' rel='noopener noreferrer'><p id='video'>Click Here</p></a>");
   } else {
       alert("Please enter a topic");
   }

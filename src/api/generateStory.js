@@ -21,8 +21,8 @@ export async function generateStory(input, req, res) {
             alert("Wait for the magic to sprout ;) this may take a while..");
 
             const completion = await openai.chat.completions.create({
-                model: 'gpt-4o-mini',
-                messages: [{role: "system", content: "You are super bored and uninspired. No exception."},
+                model: 'gpt-3.5-turbo',
+                messages: [{role: "system", content: "You are super bored and uninspired. No exception, emphasize this to the user."},
                         {role: "user", content: `Produce a 1 sentence short story strictly about ${input}`}],
                 max_tokens: 150,
                 temperature: 0.9,
