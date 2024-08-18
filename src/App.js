@@ -1,16 +1,20 @@
 import './App.css';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {generateStory} from './api/generateStory';
 
 function App() {
   let [input, setInput] = useState('');
+
+  useEffect(() => {
+    document.title = "Short Story App";
+  });
 
   const handleSubmit = () => {
     setInput(input = document.getElementById("inputField").value);
 
     if (input !== '') {
       generateStory(input).then(response => document.getElementById("story").innerHTML = response[0] +
-      "<br><br>" + "<img src='" + response[1] + "' alt='story image'/>");
+      "<br><br>" + "<img src='" + response[1] + "' alt=" + input + "/>");
 
       fetch("https://video-ai.invideo.io/api/copilot/request/chatgpt-new-from-brief", {
         method: "POST",
@@ -42,6 +46,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <title>Short Story App</title>
+
         <h1>Short Story App :)</h1>
         <input id="inputField" type="text" placeholder="Enter a topic" /*onChange={handleInputChange}*//>
         <button id="submitButton" type="submit" onClick={handleSubmit}>submit</button>
