@@ -1,15 +1,49 @@
 import './App.css';
 import {useState, useEffect} from 'react';
-import {generateStory} from './api/generateStory';
+import {generateStory, generateJoke, generateProductPitch} from './api/generate';
+/*import AndrewF from './assets/ENG_US_M_AndrewF.mp3';
+import { audioToText } from './api/audioToText';*/
 
 function App() {
   let [input, setInput] = useState('');
+  let [product, setProduct] = useState('');
+  /*const url = "https://api.edenai.run/v2/workflow/0bb29b04-188e-4e1c-964f-f1164d4f7a2a/execution/";
 
+  const payload = {
+      "providers": [
+        "google"
+      ],
+      "language": "en-US",
+      files : {
+        "file_url": './assets/ENG_US_M_AndrewF.mp3'
+      }
+  }*/
+
+  /* Function to convert file to Blob
+  async function fileToBlob(filePath) {
+    const response = await fetch(filePath);
+    const blob = await response.blob();
+    return blob;
+  }
+
+  function getBase64(url, file) {
+    var reader = new FileReader();
+
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      audioToText(url, reader.result);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  }*/
+ 
   useEffect(() => {
     document.title = "Short Story App";
   });
 
   const handleSubmit = () => {
+    //fileToBlob('./assets/ENG_US_M_AndrewF.mp3').then(blob => getBase64(url, new File([blob], "file"))/*audioToText(url, getBase64(blob))*/);
     setInput(input = document.getElementById("inputField").value);
 
     if (input !== '') {
@@ -43,6 +77,15 @@ function App() {
   }
   };
 
+  const handleJokeRoulette = () => {
+    generateJoke().then(response => window.confirm(response));
+  }
+
+  const handleProductPitch = (product) => {
+    setProduct(product = document.getElementById("productField").value);
+    generateProductPitch(product).then(response => alert(response));
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -55,6 +98,17 @@ function App() {
           <p id="story"></p>
           <br/>
           <div id="videoDiv"></div>
+        </div>
+        <div className='extraStuff'>
+          <h3>Extra Stuff!</h3>
+          <div className="jokeRoulette">
+            <button id="jokeButton" onClick={handleJokeRoulette}>joke roulette!</button>
+          </div>
+          <div className='productPitch'>
+            <input id="productField" type="text" placeholder="Enter a product"/>
+            <br/>
+            <button id="pitchButton" onClick={handleProductPitch}>Get pitch!</button>
+          </div>
         </div>
       </header>
     </div>

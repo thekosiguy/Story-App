@@ -3,7 +3,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: black;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -13,17 +13,17 @@
   color: white;
 }
 
-#inputField {
+#inputField, #productField {
   margin: 20px;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: large;
-  font-style:italic;
+  font-size: larger;
+  font-style: italic;
+  font-weight: bolder;
   font-family: 'Courier New', Courier, monospace;
   background-color: #f9f9f9;
   color: black;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 #storyDiv {
@@ -36,7 +36,17 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#submitButton {
+.extraStuff {
+  margin: 20px;
+  padding: 20px;
+  border: 3px solid red;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: black;
+  box-shadow: 0 0 40px yellow;
+}
+
+#jokeButton, #pitchButton, #submitButton {
   margin: 20px;
   padding: 10px 20px;
   border: 1px solid #ccc;
