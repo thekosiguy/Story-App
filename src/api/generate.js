@@ -10,7 +10,6 @@
 7. export the generateStory function as a module
 */ 
 
-//Joke roulette, product pitcher
 import OpenAI from 'openai';
 
 const openai = new OpenAI({

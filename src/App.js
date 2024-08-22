@@ -70,8 +70,8 @@ function App() {
         }
       })
       .then((response) => response.json())
-      .then((json) => document.getElementById("videoDiv").innerHTML = "<p>Generate vid about " + input + " below!</p>" +
-      "(An account is required, free to create!) <a href=" + json.video_url + " target='_blank' rel='noopener noreferrer'><p id='video'>Click Here</p></a>");
+      .then((json) => document.getElementById("videoDiv").innerHTML = "<p>Generate video about " + input + " below!</p>" +
+      "(An account is required, free to create!) <br/><button id='vidButton'><a href=" + json.video_url + " target='_blank' rel='noopener noreferrer' style='text-decoration:none; color: white;'>Generate</a></button>");
   } else {
       alert("Please enter a topic");
   }
