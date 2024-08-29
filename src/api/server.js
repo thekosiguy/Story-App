@@ -9,14 +9,10 @@
  */
 
 const express = require('express');
-const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const app = express();
 
-dotenv.config();
-
-const port = process.env.PORT || 8080;
-
+const port = 3000;
 app.use(bodyParser.json());
 
 app.listen(port, () => {

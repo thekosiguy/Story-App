@@ -1,12 +1,14 @@
 import './App.css';
 import {useState, useEffect} from 'react';
 import {generateStory, generateJoke, generateProductPitch} from './api/generate';
-/*import AndrewF from './assets/ENG_US_M_AndrewF.mp3';
-import { audioToText } from './api/audioToText';*/
+import { speechToText } from './api/speechToText';
+//import AndrewF from './assets/ENG_US_M_AndrewF.mp3';
+//import { audioToText } from './api/audioToText';*/
 
 function App() {
   let [input, setInput] = useState('');
   let [product, setProduct] = useState('');
+  const [file, setFile] = useState();
   /*const url = "https://api.edenai.run/v2/workflow/0bb29b04-188e-4e1c-964f-f1164d4f7a2a/execution/";
 
   const payload = {
@@ -17,16 +19,16 @@ function App() {
       files : {
         "file_url": './assets/ENG_US_M_AndrewF.mp3'
       }
-  }*/
+  }
 
-  /* Function to convert file to Blob
+  // Function to convert file to Blob
   async function fileToBlob(filePath) {
     const response = await fetch(filePath);
     const blob = await response.blob();
     return blob;
   }
 
-  function getBase64(url, file) {
+  /*  function getBase64(url, file) {
     var reader = new FileReader();
 
     reader.readAsDataURL(file);
@@ -86,11 +88,21 @@ function App() {
     generateProductPitch(product).then(response => alert(response));
   }
 
+  function handleChange(event) {
+    console.log("running..");
+    setFile(event.target.files[0]);
+    document.querySelector("label[for='audioFile']").textContent = event.target.files[0].name;
+  }
+
+  
+  function speechToTextAPI() { 
+    speechToText(file);
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <title>Short Story App</title>
-
         <h1>Short Story App :)</h1>
         <input id="inputField" type="text" placeholder="Enter a topic" /*onChange={handleInputChange}*//>
         <button id="submitButton" type="submit" onClick={handleSubmit}>submit</button>
@@ -108,6 +120,14 @@ function App() {
             <input id="productField" type="text" placeholder="Enter a product"/>
             <br/>
             <button id="pitchButton" onClick={handleProductPitch}>Get pitch!</button>
+          </div>
+          <div className='audioToText'>
+            <h3>Get transcription for a file!</h3>
+            <bt/>
+            <input id="audioFile" type="file" accept="audio/*" style={{display:"none"}} onChange={handleChange}/>
+            <label for="audioFile">Select audio file</label>
+            <br/>
+            <button type="submit" onClick={speechToTextAPI}>Upload</button>
           </div>
         </div>
       </header>

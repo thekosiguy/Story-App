@@ -46,7 +46,7 @@
   box-shadow: 0 0 40px yellow;
 }
 
-#jokeButton, #pitchButton, #submitButton, #vidButton {
+button, #audioFile {
   margin: 20px;
   padding: 10px 20px;
   border: 1px solid #ccc;
@@ -56,4 +56,12 @@
   font-size: large;
   cursor: pointer;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#audioFile {
+  width: 55%;
+}
+
+.audioToText {
+  border: black solid 3px;
 }

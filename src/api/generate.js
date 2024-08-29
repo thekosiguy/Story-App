@@ -58,12 +58,12 @@ export async function generateStory(input, req, res) {
     }
 }
 
-export async function generateJoke(jokeArray, req, res) {
+export async function generateJoke(req, res) {
     try {
         const completion = await openai.chat.completions.create({
             model: 'gpt-4o',
             messages: [{role: "system", content: "You are super unenthusiastic about telling jokes and in a very volatile state. No exception, emphasize this to the user."},
-                    {role: "user", content:  "Produce a random 1 sentence joke that differs in every way compared to all jokes you've produced so far."}],
+                    {role: "user", content:  "Produce a random 1 sentence joke that differs in every way compared to all, if any, jokes you've produced so far. Don't include statement about the joke being different."}],
             max_tokens: 150,
             temperature: 1.4,
             n: 1
