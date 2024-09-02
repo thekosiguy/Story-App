@@ -2,55 +2,34 @@ import './App.css';
 import {useState, useEffect} from 'react';
 import {generateStory, generateJoke, generateProductPitch} from './api/generate';
 import { speechToText } from './api/speechToText';
-//import AndrewF from './assets/ENG_US_M_AndrewF.mp3';
-//import { audioToText } from './api/audioToText';*/
 
 function App() {
   let [input, setInput] = useState('');
   let [product, setProduct] = useState('');
   const [file, setFile] = useState();
-  /*const url = "https://api.edenai.run/v2/workflow/0bb29b04-188e-4e1c-964f-f1164d4f7a2a/execution/";
-
-  const payload = {
-      "providers": [
-        "google"
-      ],
-      "language": "en-US",
-      files : {
-        "file_url": './assets/ENG_US_M_AndrewF.mp3'
-      }
-  }
-
-  // Function to convert file to Blob
-  async function fileToBlob(filePath) {
-    const response = await fetch(filePath);
-    const blob = await response.blob();
-    return blob;
-  }
-
-  /*  function getBase64(url, file) {
-    var reader = new FileReader();
-
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-      audioToText(url, reader.result);
-    };
-    reader.onerror = function (error) {
-      console.log('Error: ', error);
-    };
-  }*/
- 
+  
   useEffect(() => {
     document.title = "Short Story App";
   });
 
+  const downloadStory = (story) => { 
+    const blob = new Blob([story], { type: "text/plain" });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.href = url;
+    link.download = document.getElementById("inputField").value + "!.txt";
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
   const handleSubmit = () => {
-    //fileToBlob('./assets/ENG_US_M_AndrewF.mp3').then(blob => getBase64(url, new File([blob], "file"))/*audioToText(url, getBase64(blob))*/);
     setInput(input = document.getElementById("inputField").value);
 
     if (input !== '') {
-      generateStory(input).then(response => document.getElementById("story").innerHTML = response[0] +
-      "<br><br>" + "<img src='" + response[1] + "' alt=" + input + "/>");
+      let button = document.createElement('Button');
+
+      generateStory(input).then(response => {document.getElementById("story").innerHTML = response[0] +
+      "<br><br>" + "<img src='" + response[1] + "' alt=" + input + "/>"; button.appendChild(document.createTextNode("Download Story")); document.getElementById("downloadButton").appendChild(button); button.addEventListener('click', () => {downloadStory(response[0])})});
 
       fetch("https://video-ai.invideo.io/api/copilot/request/chatgpt-new-from-brief", {
         method: "POST",
@@ -94,7 +73,6 @@ function App() {
     document.querySelector("label[for='audioFile']").textContent = event.target.files[0].name;
   }
 
-  
   function speechToTextAPI() { 
     speechToText(file);
   }
@@ -104,11 +82,11 @@ function App() {
       <header className="App-header">
         <title>Short Story App</title>
         <h1>Short Story App :)</h1>
-        <input id="inputField" type="text" placeholder="Enter a topic" /*onChange={handleInputChange}*//>
+        <input id="inputField" type="text" placeholder="Enter a topic"/>
         <button id="submitButton" type="submit" onClick={handleSubmit}>submit</button>
         <div className="storyDiv">
           <p id="story"></p>
-          <br/>
+          <p id="downloadButton"></p>
           <div id="videoDiv"></div>
         </div>
         <div className='extraStuff'>
@@ -122,10 +100,10 @@ function App() {
             <button id="pitchButton" onClick={handleProductPitch}>Get pitch!</button>
           </div>
           <div className='audioToText'>
-            <h3>Get transcription for a file!</h3>
+            <p id="transcriptionTitle">Transcription of an audio file!</p>
             <bt/>
             <input id="audioFile" type="file" accept="audio/*" style={{display:"none"}} onChange={handleChange}/>
-            <label for="audioFile">Select audio file</label>
+            <label htmlFor="audioFile">Select audio file</label>
             <br/>
             <button type="submit" onClick={speechToTextAPI}>Upload</button>
           </div>

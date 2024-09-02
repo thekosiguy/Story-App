@@ -46,6 +46,11 @@
   box-shadow: 0 0 40px yellow;
 }
 
+#transcriptionTitle {
+  font-size: 30px;
+  font-style: italic;
+}
+
 button, #audioFile {
   margin: 20px;
   padding: 10px 20px;
@@ -63,5 +68,5 @@ button, #audioFile {
 }
 
 .audioToText {
-  border: black solid 3px;
+  border: 1px solid #ccc;
 }

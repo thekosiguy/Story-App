@@ -1,11 +1,4 @@
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-    apiKey: process.env['REACT_APP_OPENAI_API_KEY'],
-    dangerouslyAllowBrowser: true
-  });
-
-  export async function speechToText(file) {
+export async function speechToText(file) {
     try {
       const formData = new FormData();
       formData.append('model', 'whisper-1');
