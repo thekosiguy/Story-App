@@ -2,6 +2,7 @@ import './App.css';
 import {useState, useEffect} from 'react';
 import {generateStory, generateJoke, generateProductPitch} from './api/generate';
 import { speechToText } from './api/speechToText';
+import {fetchStories} from './api/fetch.js';
 
 function App() {
   let [input, setInput] = useState('');
@@ -27,7 +28,7 @@ function App() {
 
     if (input !== '') {
       let button = document.createElement('Button');
-
+      fetchStories();
       generateStory(input).then(response => {document.getElementById("story").innerHTML = response[0] +
       "<br><br>" + "<img src='" + response[1] + "' alt=" + input + "/>"; button.appendChild(document.createTextNode("Download Story")); document.getElementById("downloadButton").appendChild(button); button.addEventListener('click', () => {downloadStory(response[0])})});
 
