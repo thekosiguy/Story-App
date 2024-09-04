@@ -2,7 +2,7 @@ import './App.css';
 import {useState, useEffect} from 'react';
 import {generateStory, generateJoke, generateProductPitch} from './api/generate';
 import { speechToText } from './api/speechToText';
-import {fetchStories} from './api/fetch.js';
+import {saveStory} from './api/stories.js';
 
 function App() {
   let [input, setInput] = useState('');
@@ -23,14 +23,27 @@ function App() {
     URL.revokeObjectURL(url);
   }
 
+  const save = (story) => {
+    console.log("saving story..");
+    saveStory(story);
+  }
+
   const handleSubmit = () => {
     setInput(input = document.getElementById("inputField").value);
 
     if (input !== '') {
-      let button = document.createElement('Button');
-      fetchStories();
+      let downloadButton = document.createElement('Button');
+      let saveStoryButton = document.createElement('Button');
+
       generateStory(input).then(response => {document.getElementById("story").innerHTML = response[0] +
-      "<br><br>" + "<img src='" + response[1] + "' alt=" + input + "/>"; button.appendChild(document.createTextNode("Download Story")); document.getElementById("downloadButton").appendChild(button); button.addEventListener('click', () => {downloadStory(response[0])})});
+      "<br><br>" + "<img src='" + response[1] + "' alt=" + input + "/>"; downloadButton.appendChild(document.createTextNode("Download Story"));
+       document.getElementById("downloadButton").appendChild(downloadButton); 
+       downloadButton.addEventListener('click', () => {downloadStory(response[0])});
+
+       saveStoryButton.appendChild(document.createTextNode("Save Story"));
+       document.getElementById("saveStoryButton").appendChild(saveStoryButton); 
+       saveStoryButton.addEventListener('click', () => {save(response[0])});
+      });
 
       fetch("https://video-ai.invideo.io/api/copilot/request/chatgpt-new-from-brief", {
         method: "POST",
@@ -53,7 +66,7 @@ function App() {
       })
       .then((response) => response.json())
       .then((json) => document.getElementById("videoDiv").innerHTML = "<p>Generate video about " + input + " below!</p>" +
-      "(An account is required, free to create!) <br/><button id='vidButton'><a href=" + json.video_url + " target='_blank' rel='noopener noreferrer' style='text-decoration:none; color: white;'>Generate</a></button>");
+      "(An account is required, free to create!) <br/><downloadButton id='viddownloadButton'><a href=" + json.video_url + " target='_blank' rel='noopener noreferrer' style='text-decoration:none; color: white;'>Generate</a></downloadButton>");
   } else {
       alert("Please enter a topic");
   }
@@ -88,6 +101,7 @@ function App() {
         <div className="storyDiv">
           <p id="story"></p>
           <p id="downloadButton"></p>
+          <p id="saveStoryButton"></p>
           <div id="videoDiv"></div>
         </div>
         <div className='extraStuff'>
