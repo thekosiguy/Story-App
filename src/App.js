@@ -2,6 +2,7 @@ import './App.css';
 import {useState, useEffect} from 'react';
 import {generateStory, generateJoke, generateProductPitch} from './api/generate';
 import { speechToText } from './api/speechToText';
+import {fetchStories} from './api/stories.js';
 import {saveStory} from './api/stories.js';
 
 function App() {
@@ -13,12 +14,16 @@ function App() {
     document.title = "Short Story App";
   });
 
-  const downloadStory = (story) => { 
+  const getStories = () => {
+    fetchStories().then(response => downloadStory(response, "Stories"));
+  }
+
+  const downloadStory = (story, fileName) => { 
     const blob = new Blob([story], { type: "text/plain" });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.href = url;
-    link.download = document.getElementById("inputField").value + "!.txt";
+    link.download = fileName + "!.txt";
     link.click();
     URL.revokeObjectURL(url);
   }
@@ -34,11 +39,12 @@ function App() {
     if (input !== '') {
       let downloadButton = document.createElement('Button');
       let saveStoryButton = document.createElement('Button');
+      let fetchStoriesButton = document.createElement('Button');
 
       generateStory(input).then(response => {document.getElementById("story").innerHTML = response[0] +
       "<br><br>" + "<img src='" + response[1] + "' alt=" + input + "/>"; downloadButton.appendChild(document.createTextNode("Download Story"));
        document.getElementById("downloadButton").appendChild(downloadButton); 
-       downloadButton.addEventListener('click', () => {downloadStory(response[0])});
+       downloadButton.addEventListener('click', () => {downloadStory(response[0], document.getElementById("inputField").value)});
 
        saveStoryButton.appendChild(document.createTextNode("Save Story"));
        document.getElementById("saveStoryButton").appendChild(saveStoryButton); 
@@ -66,7 +72,7 @@ function App() {
       })
       .then((response) => response.json())
       .then((json) => document.getElementById("videoDiv").innerHTML = "<p>Generate video about " + input + " below!</p>" +
-      "(An account is required, free to create!) <br/><downloadButton id='viddownloadButton'><a href=" + json.video_url + " target='_blank' rel='noopener noreferrer' style='text-decoration:none; color: white;'>Generate</a></downloadButton>");
+      "(An account is required, free to create!) <br/><button id='generateButton'><a href=" + json.video_url + " target='_blank' rel='noopener noreferrer' style='text-decoration:none; color: white;'>Generate</a></button>");
   } else {
       alert("Please enter a topic");
   }
@@ -98,6 +104,7 @@ function App() {
         <h1>Short Story App :)</h1>
         <input id="inputField" type="text" placeholder="Enter a topic"/>
         <button id="submitButton" type="submit" onClick={handleSubmit}>submit</button>
+        <button id="fetchStoriesButton" onClick={getStories}>Download saved stories</button>
         <div className="storyDiv">
           <p id="story"></p>
           <p id="downloadButton"></p>

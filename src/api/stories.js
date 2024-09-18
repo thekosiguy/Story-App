@@ -3,10 +3,14 @@ import axios from 'axios';
 
 export async function fetchStories(req, res) {
   try {
-    const response = await axios.get("https://8jyx5c3anc.execute-api.eu-north-1.amazonaws.com/dev/stories");
-    for (const element of response.data) {
-      console.log(element.story);
+    const response = await axios.get("https://8jyx5c3anc.execute-api.eu-north-1.amazonaws.com/dev/stories?TableName=Stories");
+    let stories = "";
+
+    for (const element of response.data.Items) {
+      stories += element.story + "\n\n";
     }
+
+    return stories;
   } catch (error) {
     console.error('Error fetching stories:', error);
   }
@@ -14,11 +18,14 @@ export async function fetchStories(req, res) {
 
 export async function saveStory(story) {
   try {
-    const response = await axios.post("https://8jyx5c3anc.execute-api.eu-north-1.amazonaws.com/dev/stories", {
-      story: story
+    const stories = await axios.get("https://8jyx5c3anc.execute-api.eu-north-1.amazonaws.com/dev/stories?TableName=Stories");
+    const storyID = stories.data.Items[stories.data.Items.length - 1].storyID + 1;
+
+    const response = await axios.post("https://8jyx5c3anc.execute-api.eu-north-1.amazonaws.com/dev/stories?TableName=Stories", {
+      "storyID": storyID,
+      "story": story
     });
-    console.log(response);
   } catch (error) {
-    console.error('Error saving story:', error);
+    alert('Error saving story:', error);
   }
 }
