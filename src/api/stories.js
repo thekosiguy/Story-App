@@ -21,11 +21,13 @@ export async function saveStory(story) {
     const stories = await axios.get("https://8jyx5c3anc.execute-api.eu-north-1.amazonaws.com/dev/stories?TableName=Stories");
     const storyID = stories.data.Items[stories.data.Items.length - 1].storyID + 1;
 
-    const response = await axios.post("https://8jyx5c3anc.execute-api.eu-north-1.amazonaws.com/dev/stories?TableName=Stories", {
+    await axios.post("https://8jyx5c3anc.execute-api.eu-north-1.amazonaws.com/dev/stories?TableName=Stories", {
       "storyID": storyID,
       "story": story
     });
+    alert("Saved!")
   } catch (error) {
-    alert('Error saving story:', error);
+    alert("Error saving story, please try again.");
+    console.log(error);
   }
 }

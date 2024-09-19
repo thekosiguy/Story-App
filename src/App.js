@@ -39,7 +39,6 @@ function App() {
     if (input !== '') {
       let downloadButton = document.createElement('Button');
       let saveStoryButton = document.createElement('Button');
-      let fetchStoriesButton = document.createElement('Button');
 
       generateStory(input).then(response => {document.getElementById("story").innerHTML = response[0] +
       "<br><br>" + "<img src='" + response[1] + "' alt=" + input + "/>"; downloadButton.appendChild(document.createTextNode("Download Story"));
