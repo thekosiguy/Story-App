@@ -4,6 +4,7 @@ import {generateStory, generateJoke, generateProductPitch} from './api/generate'
 import { speechToText } from './api/speechToText';
 import {fetchStories} from './api/stories.js';
 import {saveStory} from './api/stories.js';
+import shortStoryImage from "./short-story.jpg"
 
 function App() {
   let [input, setInput] = useState('');
@@ -101,6 +102,8 @@ function App() {
       <header className="App-header">
         <title>Short Story App</title>
         <h1>Short Story App :)</h1>
+        <img className="shortStoryImage" src={shortStoryImage} alt="short story"/>
+        <br/>
         <input id="inputField" type="text" placeholder="Enter a topic"/>
         <button id="submitButton" type="submit" onClick={handleSubmit}>submit</button>
         <button id="fetchStoriesButton" onClick={getStories}>Download saved stories</button>

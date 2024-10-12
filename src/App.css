@@ -2,6 +2,21 @@
   text-align: center;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  .shortStoryImage:hover {
+    animation: shortStoryImage-spin infinite 0.3s linear;
+  }
+}
+
+@keyframes shortStoryImage-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} 
+
 .App-header {
   background-color: black;
   min-height: 100vh;
